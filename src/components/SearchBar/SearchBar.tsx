@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import s from './SearchBar.module.css';
+import { SearchBarProps } from '../../services/types';
 
-const SearchBar = ({ handleSetQuery }) => {
-  const [value, setValue] = useState('');
+const SearchBar: React.FC<SearchBarProps> = ({ handleSetQuery }) => {
+  const [value, setValue] = useState<string>('');
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    value.length > 0
-      ? handleSetQuery(value)
-      : toast.error('Entered nothing. Received nothing.', {});
+    if (value.length > 0) {
+      handleSetQuery(value);
+    } else {
+      toast.error('Entered nothing. Received nothing.', {});
+    }
   };
 
   return (

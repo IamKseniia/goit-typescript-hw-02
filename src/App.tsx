@@ -2,25 +2,26 @@ import './App.css';
 import 'modern-normalize';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { fetchPhotos } from './services/photos-api.js';
-import SearchBar from './components/SearchBar/SearchBar.jsx';
-import ErrorMessage from './components/ErrorMessage/ErrorMessage.jsx';
-import Loader from './components/Loader/Loader.jsx';
-import ImageGallery from './components/ImageGallery/ImageGallery.jsx';
-import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn.jsx';
-import ImageModal from './components/ImageModal/ImageModal.jsx';
+import { fetchPhotos } from './services/photos-api';
+import SearchBar from './components/SearchBar/SearchBar';
+import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import Loader from './components/Loader/Loader';
+import ImageGallery from './components/ImageGallery/ImageGallery';
+import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
+import ImageModal from './components/ImageModal/ImageModal';
+import { AppState } from './services/types';
 
-const App = () => {
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+const App: React.FC = () => {
+  const [photos, setPhotos] = useState<AppState['photos']>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
-  const [query, setQuery] = useState('');
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(12);
+  const [query, setQuery] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(12);
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [targetImage, setTargetImage] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [targetImage, setTargetImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!query) return;
@@ -46,7 +47,7 @@ const App = () => {
     getData();
   }, [query, page, perPage]);
 
-  const handleSetQuery = newQuery => {
+  const handleSetQuery = (newQuery: string) => {
     console.log(newQuery);
     setQuery(newQuery);
     setPhotos([]);
@@ -54,7 +55,7 @@ const App = () => {
     setPerPage(12);
   };
 
-  const openModal = imageUrl => {
+  const openModal = (imageUrl: string) => {
     setTargetImage(imageUrl);
     setModalIsOpen(true);
   };
